@@ -16,7 +16,7 @@ Categories:
   - web_framework
   - dropwizard
 Website: http://dropwizard.io/index.html
-Source-Url: git@github.com:dquenault/openshift-dropwizard.git
+Source-Url: https://github.com/dquenault/openshift-dropwizard/archive/master.zip
 Help-Topics:
   "Developer Center": https://openshift.redhat.com/community/developers
 Cart-Data:
