@@ -1,0 +1,6 @@
+http:
+    bindHost: ${OPENSHIFT_DWIZARD_IP}
+    adminPort: ${OPENSHIFT_DWIZARD_PORT}
+
+template: Hello, %s!
+defaultName: Stranger

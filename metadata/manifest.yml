@@ -1,22 +1,22 @@
 Name: dropwizard
-Cartridge-Short-Name: dropwizard
+Cartridge-Short-Name: DWIZARD
 Cartridge-Version: '1.0.0'
 Compatible-Versions:
   - '1.0.0'
-Cartridge-Vendor: community
+Cartridge-Vendor: dquenault
 Display-Name: Dropwizard (Jetty)
-Description: "PHP is a general-purpose server-side scripting language..."
-Version: '5.4'
+Description: "Dropwizard is a Java framework for developing ops-friendly, high-performance, RESTful web services."
+Version: '0.7.0'
 Versions:
-  - '5.4'
-License: "The PHP License, version 3.0"
-License-Url: http://www.php.net/license/3_0.txt
-Vendor: PHP Group
+  - '0.7.0'
+License: "Apache License v2"
+License-Url: http://www.apache.org/licenses/LICENSE-2.0.html
+Vendor: Apache
 Categories:
-  - service
-  - php
   - web_framework
-Website: http://www.php.net
+  - dropwizard
+Website: http://dropwizard.io/index.html
+Source-Url: https://github.com/dquenault/openshift-dropwizard
 Help-Topics:
   "Developer Center": https://openshift.redhat.com/community/developers
 Cart-Data:
@@ -24,45 +24,27 @@ Cart-Data:
     Type: environment
     Description: "How environment variable should be used"
 Provides:
-  - php-5.4
-  - "php"
-Publishes:
-  get-php-ini:
-    Type: "FILESYSTEM:php-ini"
-  publish-http-url:
-    Type: "NET_TCP:httpd-proxy-info"
-  publish-gear-endpoint:
-    Type: "NET_TCP:gear-endpoint-info"
-Subscribes:
-  set-db-connection-info:
-    Type: "NET_TCP:db:connection-info"
-    Required: false
-  set-nosql-db-connection-info:
-    Type: "NET_TCP:nosqldb:connection-info"
-    Required: false
-  set-mysql-connection-info:
-    Type: "NET_TCP:db:mysql"
-    Required : false
-  set-postgres-connection-info:
-    Type: "NET_TCP:db:postgres"
-    Required : false
-  set-doc-url:
-    Type: "STRING:urlpath"
-    Required : false
+  - "java" 
 Scaling:
   Min: 1
   Max: -1
-Group-Overrides:
-  - components:
-    - php-5.4
-    - web_proxy
 Endpoints:
-  - Private-IP-Name:   IP1
-    Private-Port-Name: HTTP_PORT
+  - Private-IP-Name:   IP
+    Private-Port-Name: PORT
     Private-Port:      8080
-    Public-Port-Name:  PROXY_HTTP_PORT
+    Public-Port-Name:  PROXY_PORT
+    Protocols:
+    - http
     Mappings:
-      - Frontend:      '/front'
-        Backend:       '/back'
+    - Frontend: ''
+      Backend: ''
+
+  - Private-IP-Name:   ADMIN
+    Private-Port-Name: ADMIN_PORT
+    Private-Port:      8081
+    Public-Port-Name:  PROXY_ADMIN_PORT
+    Mappings:
+      - Frontend:      ''
+        Backend:       ''
 Additional-Control-Actions:
   - threaddump

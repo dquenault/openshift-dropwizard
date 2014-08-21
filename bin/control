@@ -1,0 +1,97 @@
+#!/bin/bash -e
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+PID_FILE=$OPENSHIFT_DWIZARD_DIR/run/dwizard.pid
+
+
+function _install_copy_jar() {
+ 
+  files=($OPENSHIFT_REPO_DIR/*.jar)
+
+  if [ -e "${files[0]}" ];
+  then
+    echo "No jar files found"
+    exit 1
+  fi
+
+  echo "Installing JAR to launch service..."
+  cp $OPENSHIFT_REPO_DIR/*.jar $OPENSHIFT_DATA_DIR/build.jar
+
+}
+
+function _is_running() {
+  if [ -f $PID_FILE ]; then
+    local zpid=$(cat $PID_FILE 2> /dev/null)
+    local myid=$(id -u)
+    if `ps -opid,args --pid $zpid 2>&1 &> /dev/null`; then
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+function start() {
+  if _is_running; then
+    echo "Dropwizard service is already running" 1>&2
+    return 0
+  fi
+  deploy
+
+  export PUBLISH_HOST=$(python -c "import socket; print socket.gethostbyname('$OPENSHIFT_GEAR_DNS')")
+
+  java -jar $OPENSHIFT_DATA_DIR/build.jar server $OPENSHIFT_DWIZARD_DIR/conf/helloworld.yml > ${OPENSHIFT_DATA_DIR}/logs/helloworld.log 2>&1 &
+  echo "$!" > $PID_FILE
+}
+
+function stop() {
+  if ! _is_running; then
+    echo "Dropwizard is already stopped" 1>&2
+    return 0
+  fi
+
+  if [ -f $PID_FILE ]; then
+    local zpid=$(cat $PID_FILE 2> /dev/null)
+  fi
+
+  if [ -n $zpid ]; then
+    /bin/kill $zpid
+    local ret=$?
+    if [ $ret -eq 0 ]; then
+      local TIMEOUT=10
+      while [ $TIMEOUT -gt 0 ] &&  _is_running ; do
+        /bin/kill -0 "$zpid" > /dev/null 2>&1  ||  break
+        sleep 1
+        let TIMEOUT=${TIMEOUT}-1
+      done
+    fi
+  fi
+}
+
+function restart() {
+  stop
+  start
+}
+
+function status() {
+  local output=""
+  if output=$(curl http://$OPENSHIFT_DWIZARD_IP:$OPENSHIFT_DWIZARD_PORT/ &> /dev/null); then
+    client_result "Application is running"
+  else
+    client_result "Application is either stopped or inaccessible"
+  fi
+}
+
+function deploy() {
+   _install_copy_jar
+}
+
+case "$1" in
+  start)             start ;;
+  stop)              stop ;;
+  restart | reload ) restart $1 ;;
+  status)            status ;;
+  deploy)            deploy ;;
+  *)                 exit 0
+esac
