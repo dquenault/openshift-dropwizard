@@ -44,7 +44,7 @@ Endpoints:
     Private-Port:      8081
     Public-Port-Name:  PROXY_ADMIN_PORT
     Mappings:
-      - Frontend:      ''
-        Backend:       ''
+      - Frontend:      '/admin'
+        Backend:       '/admin'
 Additional-Control-Actions:
   - threaddump
