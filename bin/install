@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+mkdir -p $OPENSHIFT_DWIZARD_DIR/run
+mkdir -p $OPENSHIFT_DWIZARD_DIR/logs
