@@ -12,7 +12,7 @@ function _install_copy_jar() {
   if [ -e "${files[0]}" ];
   then
     echo "No jar files found"
-    exit 1
+    ##exit 1
   fi
 
   echo "Installing JAR to launch service..."
