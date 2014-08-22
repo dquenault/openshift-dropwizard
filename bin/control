@@ -17,7 +17,7 @@ function _install_copy_jar() {
 
   echo "Installing JAR to launch service..."
   cp $OPENSHIFT_REPO_DIR/*.jar $OPENSHIFT_DATA_DIR/build.jar
-  sed -i 's/@OPENSHIFT_INTERNAL_IP@/'"$OPENSHIFT_INTERNAL_IP"'/g' $OPENSHIFT_REPO_DIR/hello-world.yml
+  sed -i 's/@OPENSHIFT_INTERNAL_IP@/'"$OPENSHIFT_DWIZARD_IP"'/g' $OPENSHIFT_REPO_DIR/hello-world.yml
 
 }
 
