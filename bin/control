@@ -17,6 +17,7 @@ function _install_copy_jar() {
 
   echo "Installing JAR to launch service..."
   cp $OPENSHIFT_REPO_DIR/*.jar $OPENSHIFT_DATA_DIR/build.jar
+  sed -i 's/@OPENSHIFT_INTERNAL_IP@/'"$OPENSHIFT_INTERNAL_IP"'/g' $OPENSHIFT_REPO_DIR/hello-world.yml
 
 }
 
@@ -41,7 +42,7 @@ function start() {
 
   export PUBLISH_HOST=$(python -c "import socket; print socket.gethostbyname('$OPENSHIFT_GEAR_DNS')")
 
-  java -jar $OPENSHIFT_DATA_DIR/build.jar server $OPENSHIFT_DWIZARD_DIR/conf/helloworld.yml > $OPENSHIFT_DWIZARD_DIR/logs/helloworld.log 2>&1 &
+  java -jar $OPENSHIFT_DATA_DIR/build.jar server $OPENSHIFT_REPO_DIR/helloworld.yml > $OPENSHIFT_DWIZARD_DIR/logs/helloworld.log 2>&1 &
   echo "$!" > $PID_FILE
 }
 
