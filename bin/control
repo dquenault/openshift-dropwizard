@@ -41,7 +41,7 @@ function start() {
   export PUBLISH_HOST=$(python -c "import socket; print socket.gethostbyname('$OPENSHIFT_GEAR_DNS')")
 
   java -jar $OPENSHIFT_DATA_DIR/build.jar server $OPENSHIFT_REPO_DIR/hello-world.yml > $OPENSHIFT_DWIZARD_DIR/logs/helloworld.log 2>&1 &
-  rc = $?
+  local rc=$?
   if [[ $rc != 0 ]]; then
      echo "Dropwizard failed to start"
      exit $rc
