@@ -1,0 +1,12 @@
+server:
+  applicationConnectors:
+  - type: http
+    port: <%= ENV['OPENSHIFT_DWIZARD_PORT'] %>
+    bindHost: <%= ENV['OPENSHIFT_DWIZARD_IP'] %>
+  adminConnectors:
+  - type: http
+    port: <%= ENV['OPENSHIFT_DWIZARD_ADMIN_PORT'] %>
+    bindHost: <%= ENV['OPENSHIFT_DWIZARD_ADMIN_IP'] %>
+
+template: Hello, %s!
+defaultName: Stranger
