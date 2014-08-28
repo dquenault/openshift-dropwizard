@@ -41,10 +41,10 @@ Endpoints:
 
   - Private-IP-Name:   ADMIN
     Private-Port-Name: ADMIN_PORT
-    Private-Port:      8081
+    Private-Port:      18081
     Public-Port-Name:  PROXY_ADMIN_PORT
     Mappings:
       - Frontend:      '/admin'
-        Backend:       '/admin'
+        Backend:       '/'
 Additional-Control-Actions:
   - threaddump
