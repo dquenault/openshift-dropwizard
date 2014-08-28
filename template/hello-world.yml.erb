@@ -6,7 +6,7 @@ server:
   adminConnectors:
   - type: http
     port: <%= ENV['OPENSHIFT_DWIZARD_ADMIN_PORT'] %>
-    bindHost: <%= ENV['OPENSHIFT_DWIZARD_ADMIN_IP'] %>
+    bindHost: <%= ENV['OPENSHIFT_DWIZARD_ADMIN'] %>
 
 template: Hello, %s!
 defaultName: Stranger
